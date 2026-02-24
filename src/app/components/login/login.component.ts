@@ -8,20 +8,23 @@ import { AuthService } from '../../services/auth.service';
   <h1>Login</h1>
   <input placeholder="Usuario" #user>
   <input type="password" placeholder="Password" #pass>
-  <button (click)="login()">Login</button>
+  <button (click)="login(user.value, pass.value)">Login</button>
 `
 })
 export class LoginComponent {
 
   constructor(private authService: AuthService) {}
 
-  login() {
-  this.authService.login('admin', '1234')
-    .subscribe(response => {
-      if (response.success) {
-        console.log('Login correcto');
+    login(username: string, password: string) {
+
+      if (!username || !password) {
+        console.log('Campos requeridos');
+        return;
       }
-    });
-}
+
+      this.authService.login(username, password)
+        .subscribe(res => console.log('Validation', res));
+    }
+
 
 }
